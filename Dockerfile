@@ -13,10 +13,12 @@ WORKDIR /app
 
 RUN addgroup -S spring && adduser -S spring -G spring
 COPY --from=build /app/build/libs/app.jar ./app.jar
-RUN mkdir -p /data/uploads && chown -R spring:spring /data/uploads \
-    && apk add --no-cache curl
+COPY docker/backend-entrypoint.sh /backend-entrypoint.sh
+RUN chmod +x /backend-entrypoint.sh \
+    && mkdir -p /data/uploads && chown -R spring:spring /data/uploads \
+    && apk add --no-cache curl su-exec
 
-USER spring:spring
+# Запуск от root только для chown тома в entrypoint; процесс Java — spring (su-exec).
 EXPOSE 8080
 
 HEALTHCHECK --interval=20s --timeout=15s --start-period=300s --retries=25 \
@@ -24,4 +26,4 @@ HEALTHCHECK --interval=20s --timeout=15s --start-period=300s --retries=25 \
 
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 
-ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar /app/app.jar"]
+ENTRYPOINT ["/backend-entrypoint.sh"]

@@ -3,6 +3,7 @@
 # Синтаксис ${VAR:?текст} здесь не используем: иначе даже `docker compose build` падает без .env.
 #
 # VPS: первый старт backend (Liquibase) может занять несколько минут — healthcheck с запасом.
+# Том uploads: права выставляет entrypoint образа (spring должен писать в /data/uploads).
 # Если backend unhealthy: см. логи. Если меняли DB_PASSWORD при уже существующем томе pgdata —
 # пароль в контейнере Postgres не обновится; либо верните старый пароль в .env, либо один раз
 # docker compose down -v (удалит данные БД в Docker) и снова up.
