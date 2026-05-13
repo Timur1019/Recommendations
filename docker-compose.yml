@@ -48,7 +48,8 @@ services:
     expose:
       - "8080"
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/actuator/health"]
+      # liveness без агрегата БД (compose уже ждёт db healthy); меньше ложных 503 на старте
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/actuator/health/liveness"]
       interval: 20s
       timeout: 15s
       retries: 25
