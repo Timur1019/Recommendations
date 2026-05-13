@@ -35,6 +35,16 @@ server:
   # За reverse proxy (nginx): корректные редиректы и ссылки при X-Forwarded-*.
   forward-headers-strategy: framework
 
+# Docker / k8s: лёгкая проверка готовности (curl в healthcheck compose).
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
 app:
   storage:
     # Абсолютный путь или пусто — тогда {user.dir}/data/uploads
