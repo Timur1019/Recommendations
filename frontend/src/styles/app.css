@@ -1,0 +1,106 @@
+/* App-wide layout helpers */
+
+.app-shell {
+  min-height: 100vh;
+  background: transparent;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+.app-shell__header-user {
+  max-width: 12rem;
+}
+
+.app-card {
+  border: 1px solid var(--kn-outline, rgba(15, 23, 42, 0.09));
+  border-radius: var(--kn-radius-card, 1rem);
+  box-shadow: var(--kn-shadow-sm, 0 2px 8px rgba(15, 23, 42, 0.06));
+  background: var(--kn-white, #fff);
+  background-clip: padding-box;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.app-card:hover {
+  border-color: rgba(0, 52, 97, 0.12);
+  box-shadow: var(--kn-shadow-md, 0 8px 24px rgba(15, 23, 42, 0.08));
+}
+
+/* Сетка страницы: ровные промежутки между блоками Bootstrap */
+.kn-shell__main .row {
+  --bs-gutter-x: 1.25rem;
+  --bs-gutter-y: 1.25rem;
+}
+
+@media (min-width: 992px) {
+  .kn-shell__main .row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+  }
+}
+
+.app-muted {
+  color: var(--kn-on-surface-variant, #475569);
+  font-size: 0.9rem;
+}
+
+/* Page title strip (optional use in views) */
+.kn-page-header {
+  margin-bottom: 1.75rem;
+}
+
+.kn-page-header__title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  letter-spacing: -0.03em;
+  color: var(--kn-on-surface);
+  margin: 0 0 0.35rem;
+}
+
+.kn-page-header__desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--kn-on-surface-variant);
+  max-width: 40rem;
+  line-height: 1.5;
+}
+
+.kn-max-w-readable {
+  max-width: 860px;
+}
+
+.kn-profile-stat {
+  background: linear-gradient(180deg, #fff 0%, var(--kn-surface-low, #eef2f8) 100%);
+  border-color: var(--kn-outline, rgba(15, 23, 42, 0.09)) !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.kn-profile-stat:hover {
+  box-shadow: var(--kn-shadow-sm, 0 2px 8px rgba(15, 23, 42, 0.06));
+}
+
+.kn-kicker {
+  letter-spacing: 0.12em;
+}
+
+/* Таблицы в карточках */
+.app-card .table {
+  margin-bottom: 0;
+}
+
+.app-card .table thead th {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--kn-on-surface-variant);
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+  white-space: nowrap;
+}
+
+.app-card .table tbody td {
+  vertical-align: middle;
+  border-color: rgba(15, 23, 42, 0.06);
+}

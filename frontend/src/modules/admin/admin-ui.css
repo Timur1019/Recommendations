@@ -1,0 +1,161 @@
+/* Админ-панель: карточки, таблицы, зоны форм */
+
+.kn-admin-stack .row {
+  --bs-gutter-y: 1.25rem;
+}
+
+@media (min-width: 992px) {
+  .kn-admin-stack .row {
+    --bs-gutter-y: 1.5rem;
+  }
+}
+
+.kn-admin-card {
+  background: linear-gradient(180deg, #fdfefe 0%, #f8fafc 100%);
+  border: 1px solid rgba(15, 23, 42, 0.07) !important;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 4px 20px rgba(15, 23, 42, 0.05) !important;
+}
+
+.kn-admin-card:hover {
+  border-color: rgba(0, 52, 97, 0.1) !important;
+}
+
+.kn-admin-card__title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.25rem;
+  color: var(--kn-on-surface);
+}
+
+.kn-admin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.kn-admin-filters {
+  margin-bottom: 1rem;
+}
+
+/* Таблица пользователей */
+.kn-data-table--admin-users .kn-th--id,
+.kn-data-table--admin-users .kn-td--id {
+  width: 5%;
+  min-width: 3rem;
+}
+
+.kn-data-table--admin-users .kn-th--name,
+.kn-data-table--admin-users .kn-td--name {
+  width: 16%;
+}
+
+.kn-data-table--admin-users .kn-th--email,
+.kn-data-table--admin-users .kn-td--email {
+  width: 22%;
+}
+
+.kn-data-table--admin-users .kn-th--role,
+.kn-data-table--admin-users .kn-td--role {
+  width: 9%;
+}
+
+.kn-data-table--admin-users .kn-th--coach,
+.kn-data-table--admin-users .kn-td--coach {
+  width: 20%;
+}
+
+.kn-data-table--admin-users .kn-th--status,
+.kn-data-table--admin-users .kn-td--status {
+  width: 8%;
+}
+
+.kn-data-table--admin-users .kn-th--actions,
+.kn-data-table--admin-users .kn-td--actions {
+  width: 20%;
+  min-width: 15rem;
+}
+
+.kn-admin-role-group {
+  border-radius: var(--kn-radius-btn);
+  overflow: hidden;
+  box-shadow: var(--kn-shadow-xs);
+}
+
+.kn-admin-role-group .btn {
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.5rem;
+}
+
+/* Справочник админа */
+.kn-data-table--admin-library .kn-th--id,
+.kn-data-table--admin-library .kn-td--id {
+  width: 6%;
+  min-width: 3rem;
+}
+
+.kn-data-table--admin-library .kn-th--title,
+.kn-data-table--admin-library .kn-td--title {
+  width: 22%;
+}
+
+.kn-data-table--admin-library .kn-th--file,
+.kn-data-table--admin-library .kn-td--file {
+  width: 32%;
+}
+
+.kn-data-table--admin-library .kn-th--type,
+.kn-data-table--admin-library .kn-td--type {
+  width: 18%;
+}
+
+.kn-data-table--admin-library .kn-th--actions,
+.kn-data-table--admin-library .kn-td--actions {
+  width: 22%;
+  min-width: 12rem;
+}
+
+.kn-admin-upload-panel {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--kn-radius-input);
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, var(--kn-surface-low) 100%);
+}
+
+.kn-admin-upload-panel__title {
+  font-weight: 700;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  color: var(--kn-on-surface);
+}
+
+/* Блоки промптов ИИ */
+.kn-admin-prompt-panel {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: var(--kn-radius-input);
+  padding: 1.15rem 1.25rem;
+  background: linear-gradient(180deg, #fff 0%, rgba(248, 250, 252, 0.9) 100%);
+  box-shadow: var(--kn-shadow-xs);
+}
+
+.kn-admin-prompt-panel__key {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--kn-on-surface-variant);
+  margin-bottom: 0.75rem;
+}
+
+.kn-admin-status-badge--ok {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

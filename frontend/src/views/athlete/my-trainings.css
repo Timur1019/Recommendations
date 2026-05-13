@@ -1,0 +1,120 @@
+/* Страница «Мои тренировки» — BEM kn-my-trainings */
+
+.kn-my-trainings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 992px) {
+  .kn-my-trainings {
+    gap: 1.5rem;
+  }
+}
+
+.kn-my-trainings__card {
+  background: linear-gradient(180deg, #fdfefe 0%, #f8fafc 100%);
+  border: 1px solid rgba(15, 23, 42, 0.07) !important;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 4px 20px rgba(15, 23, 42, 0.05) !important;
+}
+
+.kn-my-trainings__card:hover {
+  border-color: rgba(0, 52, 97, 0.1) !important;
+}
+
+.kn-my-trainings__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.kn-my-trainings__filters {
+  margin-bottom: 1rem;
+}
+
+/* Колонки: тренировки (базовые стили таблиц — kn-data-tables.css) */
+.kn-data-table--trainings .kn-th--id,
+.kn-data-table--trainings .kn-td--id {
+  width: 6%;
+  min-width: 3rem;
+}
+
+.kn-data-table--trainings .kn-th--date,
+.kn-data-table--trainings .kn-td--date {
+  width: 13%;
+}
+
+.kn-data-table--trainings .kn-th--type,
+.kn-data-table--trainings .kn-td--type {
+  width: 14%;
+}
+
+.kn-data-table--trainings .kn-th--num,
+.kn-data-table--trainings .kn-td--num {
+  width: 11%;
+}
+
+.kn-data-table--trainings .kn-td--notes,
+.kn-data-table--trainings .kn-th--notes {
+  width: 45%;
+}
+
+.kn-td--notes {
+  color: var(--kn-on-surface-variant);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+/* Колонки: заявки */
+.kn-data-table--requests .kn-th--id,
+.kn-data-table--requests .kn-td--id {
+  width: 8%;
+  min-width: 3rem;
+}
+
+.kn-data-table--requests .kn-th--created,
+.kn-data-table--requests .kn-td--created {
+  width: 22%;
+}
+
+.kn-data-table--requests .kn-th--status,
+.kn-data-table--requests .kn-td--status {
+  width: 18%;
+}
+
+.kn-data-table--requests .kn-th--note,
+.kn-data-table--requests .kn-td--note {
+  width: 52%;
+}
+
+.kn-data-table--requests .kn-td--note {
+  font-size: 0.8125rem;
+  color: var(--kn-on-surface-variant);
+}
+
+.kn-my-trainings__section-title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.25rem;
+  color: var(--kn-on-surface);
+}
+
+.kn-my-trainings__section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.kn-modal-training-req {
+  border-top: 3px solid var(--kn-accent-line);
+}

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+      Полный демо-набор после v4 (нужны users/coaches/athletes).
+      Префикс competition_name SEED: — для идемпотентности.
+      Пароли учёток см. v4-seed-users.xml
+    -->
+    <changeSet id="v5-001-seed-gold-standards-achievements-trainings" author="cursor">
+        <sql dbms="postgresql" splitStatements="false" stripComments="true">
+            <![CDATA[
+-- ========== gold_standards (уникальный weight_category) ==========
+INSERT INTO gold_standards (weight_category, avg_trainings_per_week, avg_intensity, avg_pullups, avg_run_30m, avg_run_2000m, avg_burpees, avg_competitions_per_year)
+SELECT '-81', 4.50, 7.20, 18, 4.35, 415.00, 22, 8.0
+WHERE NOT EXISTS (SELECT 1 FROM gold_standards g WHERE g.weight_category = '-81');
+
+INSERT INTO gold_standards (weight_category, avg_trainings_per_week, avg_intensity, avg_pullups, avg_run_30m, avg_run_2000m, avg_burpees, avg_competitions_per_year)
+SELECT '-90', 4.20, 6.90, 16, 4.55, 430.00, 20, 6.5
+WHERE NOT EXISTS (SELECT 1 FROM gold_standards g WHERE g.weight_category = '-90');
+
+-- ========== achievements (демо-спортсмен) ==========
+INSERT INTO achievements (athlete_id, competition_name, competition_date, competition_level, medal_type, medal_photo_url, verified_by_admin)
+SELECT a.id,
+       'SEED: Кубок Республики 2025',
+       DATE '2025-03-15',
+       'NATIONAL',
+       'GOLD',
+       NULL,
+       true
+FROM athletes a
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM achievements x
+    JOIN athletes ax ON ax.id = x.athlete_id
+    JOIN users ux ON ux.id = ax.user_id AND ux.email = 'athlete@kurash.uz'
+    WHERE x.competition_name = 'SEED: Кубок Республики 2025'
+);
+
+INSERT INTO achievements (athlete_id, competition_name, competition_date, competition_level, medal_type, medal_photo_url, verified_by_admin)
+SELECT a.id,
+       'SEED: Зимний национал 2024',
+       DATE '2024-12-08',
+       'INTERNATIONAL',
+       'SILVER',
+       NULL,
+       true
+FROM athletes a
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM achievements x
+    JOIN athletes ax ON ax.id = x.athlete_id
+    JOIN users ux ON ux.id = ax.user_id AND ux.email = 'athlete@kurash.uz'
+    WHERE x.competition_name = 'SEED: Зимний национал 2024'
+);
+
+INSERT INTO achievements (athlete_id, competition_name, competition_date, competition_level, medal_type, medal_photo_url, verified_by_admin)
+SELECT a.id,
+       'SEED: Региональный турнир 2024',
+       DATE '2024-06-01',
+       'REGIONAL',
+       'BRONZE',
+       NULL,
+       false
+FROM athletes a
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM achievements x
+    JOIN athletes ax ON ax.id = x.athlete_id
+    JOIN users ux ON ux.id = ax.user_id AND ux.email = 'athlete@kurash.uz'
+    WHERE x.competition_name = 'SEED: Региональный турнир 2024'
+);
+
+-- ========== achievement_training_weeks (расписание под первое достижение) ==========
+INSERT INTO achievement_training_weeks (achievement_id, week_start_date, schedule_json)
+SELECT ach.id,
+       DATE '2025-02-10',
+       '{"days":[{"dayOfWeek":"MONDAY","entries":[{"time":"07:00","activity":"Лёгкий бег 30 мин"},{"time":"18:30","activity":"Техника стойки и захватов"}]},{"dayOfWeek":"WEDNESDAY","entries":[{"time":"19:00","activity":"Бросковые связки"}]},{"dayOfWeek":"FRIDAY","entries":[{"time":"18:00","activity":"Партер, удержания"}]}]}'::jsonb
+FROM achievements ach
+JOIN athletes a ON a.id = ach.athlete_id
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE ach.competition_name = 'SEED: Кубок Республики 2025'
+  AND NOT EXISTS (
+      SELECT 1 FROM achievement_training_weeks w
+      WHERE w.achievement_id = ach.id AND w.week_start_date = DATE '2025-02-10'
+  );
+
+INSERT INTO achievement_training_weeks (achievement_id, week_start_date, schedule_json)
+SELECT ach.id,
+       DATE '2025-02-17',
+       '{"days":[{"dayOfWeek":"TUESDAY","entries":[{"time":"19:00","activity":"Силовая ОФП"}]},{"dayOfWeek":"THURSDAY","entries":[{"time":"19:00","activity":"Спарринг контроль"}]}]}'::jsonb
+FROM achievements ach
+JOIN athletes a ON a.id = ach.athlete_id
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE ach.competition_name = 'SEED: Кубок Республики 2025'
+  AND NOT EXISTS (
+      SELECT 1 FROM achievement_training_weeks w
+      WHERE w.achievement_id = ach.id AND w.week_start_date = DATE '2025-02-17'
+  );
+
+-- ========== trainings ==========
+INSERT INTO trainings (athlete_id, training_date, workout_type, duration_minutes, intensity, technical_actions, notes, created_by)
+SELECT a.id, DATE '2025-04-01', 'OFP', 55, 6, '{"blocks":["core","legs"]}'::jsonb, 'SEED: общая физподготовка', (SELECT id FROM users WHERE email = 'coach@kurash.uz')
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM trainings t JOIN athletes ax ON ax.id = t.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND t.training_date = DATE '2025-04-01' AND t.workout_type = 'OFP'
+);
+
+INSERT INTO trainings (athlete_id, training_date, workout_type, duration_minutes, intensity, technical_actions, notes, created_by)
+SELECT a.id, DATE '2025-04-02', 'TECHNICAL', 90, 8, '{"focus":["stance","grip"],"drills":["entry","kuzushi"]}'::jsonb, 'SEED: техника', (SELECT id FROM users WHERE email = 'coach@kurash.uz')
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM trainings t JOIN athletes ax ON ax.id = t.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND t.training_date = DATE '2025-04-02' AND t.workout_type = 'TECHNICAL'
+);
+
+INSERT INTO trainings (athlete_id, training_date, workout_type, duration_minutes, intensity, technical_actions, notes, created_by)
+SELECT a.id, DATE '2025-04-04', 'TACTICAL', 75, 7, '{"scenarios":["counter_attack"]}'::jsonb, 'SEED: тактика', (SELECT id FROM users WHERE email = 'coach@kurash.uz')
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM trainings t JOIN athletes ax ON ax.id = t.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND t.training_date = DATE '2025-04-04' AND t.workout_type = 'TACTICAL'
+);
+
+INSERT INTO trainings (athlete_id, training_date, workout_type, duration_minutes, intensity, technical_actions, notes, created_by)
+SELECT a.id, DATE '2025-04-06', 'SPARRING', 60, 9, '{"rounds":6}'::jsonb, 'SEED: спарринг', (SELECT id FROM users WHERE email = 'coach@kurash.uz')
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM trainings t JOIN athletes ax ON ax.id = t.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND t.training_date = DATE '2025-04-06' AND t.workout_type = 'SPARRING'
+);
+
+INSERT INTO trainings (athlete_id, training_date, workout_type, duration_minutes, intensity, technical_actions, notes, created_by)
+SELECT a.id, DATE '2025-04-07', 'RECOVERY', 40, 3, NULL, 'SEED: восстановление', (SELECT id FROM users WHERE email = 'coach@kurash.uz')
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM trainings t JOIN athletes ax ON ax.id = t.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND t.training_date = DATE '2025-04-07' AND t.workout_type = 'RECOVERY'
+);
+
+-- ========== fitness_tests ==========
+INSERT INTO fitness_tests (athlete_id, test_date, pullups_count, run_30m_seconds, run_2000m_seconds, burpees_60sec, flexibility_cm)
+SELECT a.id, DATE '2025-01-10', 20, 4.45, 405.00, 24, 12
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM fitness_tests ft JOIN athletes ax ON ax.id = ft.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND ft.test_date = DATE '2025-01-10'
+);
+
+INSERT INTO fitness_tests (athlete_id, test_date, pullups_count, run_30m_seconds, run_2000m_seconds, burpees_60sec, flexibility_cm)
+SELECT a.id, DATE '2025-03-20', 22, 4.38, 398.50, 26, 14
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM fitness_tests ft JOIN athletes ax ON ax.id = ft.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND ft.test_date = DATE '2025-03-20'
+);
+
+-- ========== recommendations ==========
+INSERT INTO recommendations (athlete_id, generated_date, week_plan, deficits, progress_percent, pdf_url, is_viewed)
+SELECT a.id,
+       DATE '2025-04-08',
+       '{"days":[{"dow":"MONDAY","sessions":["ОФП","техника"]},{"dow":"WEDNESDAY","sessions":["партер"]}]}'::jsonb,
+       '{"endurance":"medium","explosive":"good"}'::jsonb,
+       72,
+       NULL,
+       false
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM recommendations r JOIN athletes ax ON ax.id = r.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND r.generated_date = DATE '2025-04-08'
+);
+
+INSERT INTO recommendations (athlete_id, generated_date, week_plan, deficits, progress_percent, pdf_url, is_viewed)
+SELECT a.id,
+       DATE '2025-04-01',
+       '{"focus":["speed","grip"],"sessions_per_week":5}'::jsonb,
+       '{"balance":"ok"}'::jsonb,
+       65,
+       NULL,
+       true
+FROM athletes a JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM recommendations r JOIN athletes ax ON ax.id = r.athlete_id JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND r.generated_date = DATE '2025-04-01'
+);
+
+-- ========== training_requests ==========
+INSERT INTO training_requests (athlete_id, proposed_data, status, requested_by, reviewed_by)
+SELECT a.id, '{"note":"SEED: прошу добавить акцент на партер на неделе"}'::jsonb, 'PENDING', u.id, NULL
+FROM athletes a
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM training_requests tr
+    JOIN athletes ax ON ax.id = tr.athlete_id
+    JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND tr.status = 'PENDING'
+      AND tr.proposed_data::text LIKE '%SEED: прошу добавить%'
+);
+
+INSERT INTO training_requests (athlete_id, proposed_data, status, requested_by, reviewed_by)
+SELECT a.id, '{"note":"SEED: согласовать план на соревнования"}'::jsonb, 'APPROVED', u.id, (SELECT id FROM users WHERE email = 'coach@kurash.uz')
+FROM athletes a
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM training_requests tr
+    JOIN athletes ax ON ax.id = tr.athlete_id
+    JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND tr.status = 'APPROVED'
+      AND tr.proposed_data::text LIKE '%SEED: согласовать план%'
+);
+
+INSERT INTO training_requests (athlete_id, proposed_data, status, requested_by, reviewed_by)
+SELECT a.id, '{"note":"SEED: перенос спарринга"}'::jsonb, 'REJECTED', u.id, (SELECT id FROM users WHERE email = 'coach@kurash.uz')
+FROM athletes a
+JOIN users u ON u.id = a.user_id AND u.email = 'athlete@kurash.uz'
+WHERE NOT EXISTS (
+    SELECT 1 FROM training_requests tr
+    JOIN athletes ax ON ax.id = tr.athlete_id
+    JOIN users ux ON ux.id = ax.user_id
+    WHERE ux.email = 'athlete@kurash.uz' AND tr.status = 'REJECTED'
+      AND tr.proposed_data::text LIKE '%SEED: перенос спарринга%'
+);
+
+-- ========== профиль спортсмена (рост / вес / цель) + счётчики медалей ==========
+UPDATE athletes SET
+    height_cm = 178,
+    body_weight_kg = 78.50,
+    goal_text = 'SEED: медаль на чемпионате республики, укрепить партер и взрыв',
+    current_medal_count_gold = 1,
+    current_medal_count_silver = 1,
+    current_medal_count_bronze = 1
+WHERE id IN (SELECT a.id FROM athletes a JOIN users u ON u.id = a.user_id WHERE u.email = 'athlete@kurash.uz');
+            ]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>

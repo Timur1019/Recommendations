@@ -1,0 +1,217 @@
+/* Kurash Nation — unified buttons, modals, badges (подключается после kurash-theme.css) */
+
+/* ——— Все кнопки Bootstrap: выравнивание иконок/спиннеров и удобный tap ——— */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2.5rem;
+  touch-action: manipulation;
+}
+
+.btn-sm {
+  min-height: 2.125rem;
+  padding: 0.4rem 0.95rem;
+  font-size: 0.8125rem;
+}
+
+.btn-lg {
+  min-height: 2.875rem;
+  padding: 0.65rem 1.4rem;
+}
+
+.btn-link {
+  min-height: unset;
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--kn-ring);
+}
+
+.btn-check:focus-visible + .btn {
+  box-shadow: var(--kn-ring);
+}
+
+.btn:disabled,
+.btn.disabled {
+  opacity: 0.55;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Вторичный — зелёный акцент бренда */
+.btn-secondary {
+  color: #fff;
+  background: linear-gradient(180deg, #0a9d4a 0%, var(--kn-secondary) 100%);
+  border-color: #005928;
+  box-shadow: var(--kn-shadow-xs), 0 4px 14px rgba(0, 109, 49, 0.22);
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background: linear-gradient(180deg, #0cb356 0%, #005f2a 100%);
+  border-color: #004a22;
+  box-shadow: var(--kn-shadow-sm), 0 6px 18px rgba(0, 109, 49, 0.3);
+}
+
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+/* Успех — назначение плана, подтверждения */
+.btn-success {
+  color: #fff;
+  background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+  border-color: #166534;
+  box-shadow: var(--kn-shadow-xs), 0 4px 14px rgba(22, 101, 52, 0.22);
+  font-weight: 600;
+}
+
+.btn-success:hover {
+  color: #fff;
+  background: linear-gradient(180deg, #22c55e 0%, #166534 100%);
+  border-color: #14532d;
+  box-shadow: var(--kn-shadow-sm), 0 6px 18px rgba(22, 101, 52, 0.28);
+}
+
+.btn-success:active {
+  transform: translateY(1px);
+}
+
+.btn-outline-success {
+  border-width: 1.5px;
+  color: #166534;
+  border-color: rgba(22, 101, 52, 0.45);
+  font-weight: 600;
+}
+
+.btn-outline-success:hover {
+  color: #fff;
+  background: #15803d;
+  border-color: #15803d;
+}
+
+/* Опасные действия */
+.btn-danger {
+  font-weight: 600;
+  box-shadow: var(--kn-shadow-xs);
+}
+
+.btn-outline-danger {
+  border-width: 1.5px;
+  font-weight: 600;
+}
+
+/* Контурные — лёгкий подъём при hover */
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
+  transform: translateY(-1px);
+}
+
+.rounded-pill.btn {
+  padding-left: 1.15rem;
+  padding-right: 1.15rem;
+}
+
+.rounded-pill.btn-sm {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Группа переключателей (роль на регистрации) */
+.btn-group .btn {
+  min-height: 2.25rem;
+}
+
+.btn-group > .btn-check:checked + .btn {
+  font-weight: 700;
+}
+
+/* ——— Модальные окна ——— */
+.modal-content {
+  border: 1px solid rgba(0, 52, 97, 0.08);
+  border-radius: var(--kn-radius-card);
+  box-shadow: var(--kn-shadow-lg);
+  overflow: hidden;
+}
+
+.modal-header .modal-title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.modal-footer {
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem 1.2rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.5) 0%, #fff 100%);
+}
+
+.modal-body .btn {
+  min-height: 2.35rem;
+}
+
+/* ——— Бейджи ——— */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.4em 0.7em;
+}
+
+.badge.text-bg-light.border {
+  background: var(--kn-white) !important;
+  color: var(--kn-primary) !important;
+  border-color: rgba(0, 52, 97, 0.14) !important;
+}
+
+/* ——— Топбар: меню на мобильных ——— */
+.kn-shell__menu-btn {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-width: 1.5px;
+}
+
+/* ——— Язык в сайдбаре ——— */
+.kn-shell__lang-row .btn {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+}
+
+/* ——— Уведомления (иконка) ——— */
+.kn-shell__notify-btn {
+  width: 2.35rem;
+  height: 2.35rem;
+  min-height: unset !important;
+  padding: 0 !important;
+  border-radius: var(--kn-radius-btn);
+  color: var(--kn-on-surface-variant);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.65);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.kn-shell__notify-btn:hover {
+  color: var(--kn-primary);
+  background: #fff;
+  box-shadow: var(--kn-shadow-xs);
+}
+
+/* Мобильное меню */
+.offcanvas-header {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9) 0%, #fff 100%);
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+      Демо-учётки (BCrypt, strength 10). Пароли: admin123, coach123, athlete123.
+      Идемпотентно: повторный запуск не дублирует строки по email / user_id.
+    -->
+    <changeSet id="v4-001-seed-admin-coach-athlete" author="cursor">
+        <sql dbms="postgresql" splitStatements="false" stripComments="true">
+            <![CDATA[
+-- Администратор
+INSERT INTO users (email, password_hash, full_name, phone, role, is_active)
+SELECT 'admin@kurash.uz',
+       '$2b$10$tgvoNTjkch30h0QqdNN/TemMyp5ywVkSgHOp5Nru/RP7ZEQRWCuum',
+       'Администратор',
+       NULL,
+       'ADMIN',
+       true
+WHERE NOT EXISTS (SELECT 1 FROM users u WHERE u.email = 'admin@kurash.uz');
+
+-- Тренер (пользователь)
+INSERT INTO users (email, password_hash, full_name, phone, role, is_active)
+SELECT 'coach@kurash.uz',
+       '$2b$10$r7/Vvk2ut.ijRYMw2FPphebyQeJ7TS8S1Cntnlu9.9.sS2SK9Cbey',
+       'Демо тренер',
+       '+998901234567',
+       'COACH',
+       true
+WHERE NOT EXISTS (SELECT 1 FROM users u WHERE u.email = 'coach@kurash.uz');
+
+-- Спортсмен (пользователь)
+INSERT INTO users (email, password_hash, full_name, phone, role, is_active)
+SELECT 'athlete@kurash.uz',
+       '$2b$10$ceF9sPD9Qf0cxBjd/EG8huAREeBEiAF8PJMhE5fYAtytBX.FXsZSy',
+       'Демо спортсмен',
+       '+998901234568',
+       'ATHLETE',
+       true
+WHERE NOT EXISTS (SELECT 1 FROM users u WHERE u.email = 'athlete@kurash.uz');
+
+-- Профиль тренера
+INSERT INTO coaches (user_id, region, federation_member, experience_years)
+SELECT u.id, 'Tashkent', true, 10
+FROM users u
+WHERE u.email = 'coach@kurash.uz'
+  AND NOT EXISTS (SELECT 1 FROM coaches c WHERE c.user_id = u.id);
+
+-- Профиль спортсмена с привязкой к демо-тренеру (coach@kurash.uz)
+INSERT INTO athletes (user_id, coach_id, region, weight_category, date_of_birth, rank, sport_type,
+                      current_medal_count_gold, current_medal_count_silver, current_medal_count_bronze)
+SELECT ua.id,
+       (SELECT c.id
+        FROM coaches c
+        INNER JOIN users cu ON cu.id = c.user_id AND cu.email = 'coach@kurash.uz'
+        LIMIT 1),
+       'Tashkent',
+       '-81',
+       DATE '2000-01-15',
+       'CMS',
+       'KURASH',
+       0,
+       0,
+       0
+FROM users ua
+WHERE ua.email = 'athlete@kurash.uz'
+  AND NOT EXISTS (SELECT 1 FROM athletes a WHERE a.user_id = ua.id);
+            ]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>

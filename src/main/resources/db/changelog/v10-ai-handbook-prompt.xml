@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="v10-ai-handbook-prompt-seed" author="cursor">
+        <sql>
+            INSERT INTO ai_prompt_settings (setting_key, label, body)
+            VALUES (
+                'HANDBOOK_WEEK_PLAN_JSON',
+                'ИИ: план недели из документа справочника (JSON)',
+                $BODY$
+Ты помощник тренера по курашу. На входе — извлечённый текст нормативного/методического документа (справочник) и краткий контекст спортсмена (если есть).
+Составь краткий вывод и недельный план подготовки (7 дней), опираясь на документ. Не выдавай медицинских диагнозов и не обещай гарантированных результатов.
+Верни ТОЛЬКО один JSON-объект, без текста до и после, без markdown и без блоков ``` .
+Схема строго:
+{"summary":"2–6 предложений: суть документа и как это ложится на неделю","weekPlan":{"monday":"...","tuesday":"...","wednesday":"...","thursday":"...","friday":"...","saturday":"...","sunday":"..."}}
+Ключи weekPlan — только строчные латиницей, как в примере. Пиши по-русски внутри строк. Если в документе мало деталей — обозначь разумные предположения и укажи, чего не хватает.
+$BODY$
+            )
+            ON CONFLICT (setting_key) DO NOTHING;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

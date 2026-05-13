@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: kurash-nation-backend
+
+  servlet:
+    multipart:
+      max-file-size: 128MB
+      max-request-size: 132MB
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/kurashdb}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:1}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  mvc:
+    dispatch-options-request: true
+
+server:
+  # Align with frontend (VITE_API_BASE_URL = http://localhost:8080/api). Prefix /api — см. WebMvcConfig (не задавайте SERVER_SERVLET_CONTEXT_PATH).
+  port: ${SERVER_PORT:8080}
+
+app:
+  storage:
+    # Абсолютный путь или пусто — тогда {user.dir}/data/uploads
+    root-path: ${APP_STORAGE_ROOT:}
+    max-image-bytes: ${APP_STORAGE_MAX_IMAGE:15728640}
+    max-video-bytes: ${APP_STORAGE_MAX_VIDEO:125829120}
+  security:
+    jwt:
+      secret: ${JWT_SECRET:CHANGE_ME_SUPER_SECRET_64_CHARS_MINIMUM_CHANGE_ME_PLEASE_1234567890}
+      access-token-ttl-minutes: ${JWT_ACCESS_TTL_MINUTES:240}
+
+  # External LLM: OpenAI Responses API (POST /v1/responses), same as: curl https://api.openai.com/v1/responses
+  # Prefer: export AI_API_KEY=...  (or OPENAI_API_KEY — see below)
+  ai:
+    # Только переменные окружения: задайте AI_API_KEY или OPENAI_API_KEY (см. .env.example)
+    api-key: ${AI_API_KEY:${OPENAI_API_KEY:}}
+    base-url: ${AI_BASE_URL:https://api.openai.com/v1}
+    # Same stack as: curl https://api.openai.com/v1/responses - set e.g. AI_MODEL=gpt-5.4
+    model: ${AI_MODEL:gpt-5.4}
+
+# Каталог файлов логов (см. logback-spring.xml). Переопределение: LOG_PATH или logging.file.path
+logging:
+  file:
+    path: ${LOG_PATH:logs}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="v3-001-profile-fields" author="cursor">
+        <addColumn tableName="users">
+            <column name="avatar_url" type="VARCHAR(500)"/>
+        </addColumn>
+        <addColumn tableName="athletes">
+            <column name="sport_type" type="VARCHAR(80)" defaultValue="KURASH">
+                <constraints nullable="false"/>
+            </column>
+            <column name="height_cm" type="INTEGER"/>
+            <column name="body_weight_kg" type="DECIMAL(5,2)"/>
+            <column name="goal_text" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

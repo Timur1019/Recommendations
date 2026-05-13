@@ -1,0 +1,253 @@
+.kn-dash-hero__title {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--kn-on-surface);
+}
+
+.kn-dash-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--kn-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.kn-dash-pill-toggle {
+  background: var(--kn-surface-low);
+  border-radius: 999px;
+  padding: 0.25rem;
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.kn-dash-pill-toggle__btn {
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--kn-on-surface-variant);
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kn-dash-pill-toggle__btn--active {
+  background: var(--kn-white);
+  color: var(--kn-primary);
+  box-shadow: 0 2px 8px rgba(17, 24, 39, 0.08);
+}
+
+.kn-dash-feature {
+  position: relative;
+  overflow: hidden;
+}
+
+.kn-dash-feature__bg-icon {
+  position: absolute;
+  right: -2rem;
+  bottom: -2rem;
+  opacity: 0.05;
+  pointer-events: none;
+  font-size: 15rem;
+}
+
+.kn-dash-ring-wrap {
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+  flex-shrink: 0;
+}
+
+.kn-dash-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.kn-dash-ring__track {
+  fill: transparent;
+  stroke: var(--kn-surface-high);
+  stroke-width: 12;
+}
+
+.kn-dash-ring__value {
+  fill: transparent;
+  stroke: var(--kn-secondary);
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.kn-dash-ring__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.kn-dash-ring__pct {
+  font-family: 'Manrope', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--kn-on-surface);
+  line-height: 1;
+}
+
+.kn-dash-ring__sub {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--kn-on-surface-variant);
+  margin-top: 0.25rem;
+}
+
+.kn-dash-medal-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.kn-dash-medal-row__icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kn-dash-tip {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  border-radius: var(--kn-radius-pill);
+}
+
+.kn-dash-tip__quote {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.kn-dash-ai-card {
+  border-radius: var(--kn-radius-pill);
+}
+
+.kn-dash-metric-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--kn-on-surface);
+  line-height: 1;
+}
+
+.kn-dash-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--kn-primary);
+  text-decoration: none;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.kn-dash-link-arrow:hover {
+  text-decoration: underline;
+  color: var(--kn-primary-container);
+}
+
+.kn-intensity-dots {
+  display: flex;
+  gap: 0.2rem;
+  justify-content: flex-end;
+}
+
+.kn-dash-kicker {
+  letter-spacing: 0.2em;
+}
+
+.kn-dash-icon-sm {
+  font-size: 1rem;
+}
+
+.kn-dash-dot {
+  width: 4px;
+  height: 4px;
+}
+
+.kn-dash-medals-title {
+  letter-spacing: 0.15em;
+  color: var(--kn-tertiary);
+}
+
+.kn-dash-medal-row__icon--gold {
+  background: rgba(117, 91, 0, 0.1);
+  color: var(--kn-tertiary);
+}
+
+.kn-dash-medal-row__icon--bronze {
+  background: rgba(185, 80, 0, 0.1);
+  color: #b45309;
+}
+
+.kn-dash-training-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.kn-dash-training-glyph {
+  font-size: 1.1rem;
+}
+
+.kn-dash-training-meta {
+  font-size: 0.625rem;
+}
+
+.kn-dash-intensity-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+}
+
+.kn-dash-tip-kicker {
+  letter-spacing: 0.15em;
+  color: #d3e4ff;
+}
+
+.kn-dash-tip-btn {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.kn-dash-tip-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.kn-dash-tip-deco {
+  right: -1rem;
+  bottom: -1rem;
+  font-size: 10rem;
+}
+
+.kn-dash-ai-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.kn-dash-metric-kicker {
+  letter-spacing: 0.12em;
+}

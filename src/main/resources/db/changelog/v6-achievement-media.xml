@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="v6-001-achievement-media" author="cursor">
+        <createTable tableName="achievement_media">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="achievement_id" type="BIGINT">
+                <constraints nullable="false" referencedTableName="achievements" referencedColumnNames="id"
+                             foreignKeyName="fk_achievement_media_achievement" deleteCascade="true"/>
+            </column>
+            <column name="media_kind" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="storage_key" type="VARCHAR(180)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="original_filename" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="VARCHAR(120)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size_bytes" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex indexName="idx_achievement_media_achievement" tableName="achievement_media">
+            <column name="achievement_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="v1-001-create-users" author="cursor">
+        <createTable tableName="users">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)"/>
+            <column name="role" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-002-create-coaches" author="cursor">
+        <createTable tableName="coaches">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" unique="true" referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="fk_coaches_user" deleteCascade="true"/>
+            </column>
+            <column name="region" type="VARCHAR(50)"/>
+            <column name="federation_member" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="experience_years" type="INTEGER"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-003-create-athletes" author="cursor">
+        <createTable tableName="athletes">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" unique="true" referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="fk_athletes_user" deleteCascade="true"/>
+            </column>
+            <column name="coach_id" type="BIGINT">
+                <constraints nullable="true" referencedTableName="coaches" referencedColumnNames="id"
+                             foreignKeyName="fk_athletes_coach"/>
+            </column>
+            <column name="region" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight_category" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_birth" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rank" type="VARCHAR(50)"/>
+            <column name="current_medal_count_gold" type="INTEGER" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_medal_count_silver" type="INTEGER" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_medal_count_bronze" type="INTEGER" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="idx_athletes_coach" tableName="athletes">
+            <column name="coach_id"/>
+        </createIndex>
+        <createIndex indexName="idx_athletes_weight_category" tableName="athletes">
+            <column name="weight_category"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1-004-create-achievements" author="cursor">
+        <createTable tableName="achievements">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="athlete_id" type="BIGINT">
+                <constraints nullable="false" referencedTableName="athletes" referencedColumnNames="id"
+                             foreignKeyName="fk_achievements_athlete" deleteCascade="true"/>
+            </column>
+            <column name="competition_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="competition_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="competition_level" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medal_type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medal_photo_url" type="VARCHAR(500)"/>
+            <column name="verified_by_admin" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="idx_achievements_athlete" tableName="achievements">
+            <column name="athlete_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1-005-create-trainings" author="cursor">
+        <createTable tableName="trainings">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="athlete_id" type="BIGINT">
+                <constraints nullable="false" referencedTableName="athletes" referencedColumnNames="id"
+                             foreignKeyName="fk_trainings_athlete" deleteCascade="true"/>
+            </column>
+            <column name="training_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="workout_type" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration_minutes" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="intensity" type="INTEGER"/>
+            <column name="technical_actions" type="JSONB"/>
+            <column name="notes" type="TEXT"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="true" referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="fk_trainings_created_by"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Keep checks in raw SQL for broad Liquibase/XSD compatibility -->
+        <sql>
+            ALTER TABLE trainings
+                ADD CONSTRAINT chk_trainings_duration_positive CHECK (duration_minutes &gt; 0);
+        </sql>
+        <sql>
+            ALTER TABLE trainings
+                ADD CONSTRAINT chk_trainings_intensity_range CHECK (intensity IS NULL OR (intensity BETWEEN 1 AND 10));
+        </sql>
+
+        <createIndex indexName="idx_trainings_athlete_date" tableName="trainings">
+            <column name="athlete_id"/>
+            <column name="training_date"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1-006-create-fitness-tests" author="cursor">
+        <createTable tableName="fitness_tests">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="athlete_id" type="BIGINT">
+                <constraints nullable="false" referencedTableName="athletes" referencedColumnNames="id"
+                             foreignKeyName="fk_fitness_tests_athlete" deleteCascade="true"/>
+            </column>
+            <column name="test_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pullups_count" type="INTEGER"/>
+            <column name="run_30m_seconds" type="DECIMAL(5,2)"/>
+            <column name="run_2000m_seconds" type="DECIMAL(8,2)"/>
+            <column name="burpees_60sec" type="INTEGER"/>
+            <column name="flexibility_cm" type="INTEGER"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="idx_fitness_tests_athlete" tableName="fitness_tests">
+            <column name="athlete_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1-007-create-gold-standards" author="cursor">
+        <createTable tableName="gold_standards">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="weight_category" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="avg_trainings_per_week" type="DECIMAL(4,2)"/>
+            <column name="avg_intensity" type="DECIMAL(3,2)"/>
+            <column name="avg_pullups" type="INTEGER"/>
+            <column name="avg_run_30m" type="DECIMAL(5,2)"/>
+            <column name="avg_run_2000m" type="DECIMAL(8,2)"/>
+            <column name="avg_burpees" type="INTEGER"/>
+            <column name="avg_competitions_per_year" type="DECIMAL(4,2)"/>
+            <column name="calculated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-008-create-recommendations" author="cursor">
+        <createTable tableName="recommendations">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="athlete_id" type="BIGINT">
+                <constraints nullable="false" referencedTableName="athletes" referencedColumnNames="id"
+                             foreignKeyName="fk_recommendations_athlete" deleteCascade="true"/>
+            </column>
+            <column name="generated_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="week_plan" type="JSONB"/>
+            <column name="deficits" type="JSONB"/>
+            <column name="progress_percent" type="INTEGER"/>
+            <column name="pdf_url" type="VARCHAR(500)"/>
+            <column name="is_viewed" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-009-create-training-requests" author="cursor">
+        <createTable tableName="training_requests">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="athlete_id" type="BIGINT">
+                <constraints nullable="false" referencedTableName="athletes" referencedColumnNames="id"
+                             foreignKeyName="fk_training_requests_athlete"/>
+            </column>
+            <column name="proposed_data" type="JSONB"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="requested_by" type="BIGINT">
+                <constraints nullable="true" referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="fk_training_requests_requested_by"/>
+            </column>
+            <column name="reviewed_by" type="BIGINT">
+                <constraints nullable="true" referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="fk_training_requests_reviewed_by"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

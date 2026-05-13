@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="v8-ai-prompt-1" author="cursor">
+        <createTable tableName="ai_prompt_settings">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="setting_key" type="VARCHAR(80)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="label" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v8-ai-prompt-2-seed" author="cursor">
+        <sql>
+            INSERT INTO ai_prompt_settings (setting_key, label, body)
+            VALUES (
+                'INSIGHT_WEEK_FOCUS_JSON',
+                'ИИ: недельный фокус (JSON для журнала достижений)',
+                $BODY$
+Ты помощник тренера по курашу. На входе — агрегированные данные журнала (дни, частые активности, черновик).
+Верни ТОЛЬКО один JSON-объект, без текста до и после, без markdown и без блоков ``` .
+Схема строго:
+{"summary":"2–5 предложений: общий вывод и ритм недели. Не медицинский совет.","byDay":{"MONDAY":"1–2 короткие фразы: фокус дня","TUESDAY":"...","WEDNESDAY":"...","THURSDAY":"...","FRIDAY":"...","SATURDAY":"...","SUNDAY":"..."}}
+Ключи byDay — только латиницей, как в примере. Пиши по-русски внутри строк. Если день без нагрузки — «отдых» или «лёгкая активность».
+$BODY$
+            )
+            ON CONFLICT (setting_key) DO NOTHING;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

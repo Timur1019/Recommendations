@@ -1,0 +1,66 @@
+/* Справочник тренера — карточки и модалки */
+
+.kn-modal-sheet {
+  border-top: 3px solid var(--kn-accent-line);
+}
+
+.kn-empty-panel {
+  border: 1px dashed rgba(0, 52, 97, 0.2) !important;
+  background: linear-gradient(180deg, #fff 0%, var(--kn-surface-low) 100%) !important;
+  box-shadow: var(--kn-shadow-xs) !important;
+}
+
+.kn-library-card {
+  border: 1px solid var(--kn-outline);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.kn-library-card:hover {
+  border-color: rgba(0, 52, 97, 0.14);
+  box-shadow: var(--kn-shadow-md);
+}
+
+.kn-library-file-badge {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  padding: 0.45em 0.75em;
+  border-radius: 999px;
+  font-weight: 700;
+  border: 1px solid rgba(0, 52, 97, 0.12) !important;
+  background: linear-gradient(180deg, #fff 0%, var(--kn-surface-low) 100%) !important;
+  color: var(--kn-primary) !important;
+}
+
+.kn-library-text-preview {
+  max-height: min(70vh, 640px);
+  overflow: auto;
+  border: 1px solid var(--kn-outline) !important;
+  background: var(--kn-surface-low) !important;
+  border-radius: var(--kn-radius-input) !important;
+}
+
+.kn-library-text-preview__pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--kn-on-surface);
+}
+
+.kn-library-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.kn-library-refresh-icon {
+  font-size: 1.05rem;
+}
+
+.kn-library-action-icon {
+  font-size: 1rem;
+}

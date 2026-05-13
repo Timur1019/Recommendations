@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <include file="db/changelog/v1-init.xml"/>
+    <include file="db/changelog/v2-achievement-weeks.xml"/>
+    <include file="db/changelog/v3-profile-fields.xml"/>
+    <include file="db/changelog/v4-seed-users.xml"/>
+    <include file="db/changelog/v5-seed-full-demo.xml"/>
+    <include file="db/changelog/v6-achievement-media.xml"/>
+    <include file="db/changelog/v7-training-library.xml"/>
+    <include file="db/changelog/v8-ai-prompt-settings.xml"/>
+    <include file="db/changelog/v9-recommendation-custom-tip.xml"/>
+    <include file="db/changelog/v10-ai-handbook-prompt.xml"/>
+
+</databaseChangeLog>

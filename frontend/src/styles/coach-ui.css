@@ -1,0 +1,298 @@
+/* Тренер: карточки, баннер, фильтры, действия, секции с таблицами */
+
+.kn-modal-sheet {
+  border-top: 3px solid var(--kn-accent-line);
+}
+
+.kn-coach-hero__title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.kn-coach-stat-card {
+  border-radius: var(--kn-radius-card);
+  background: linear-gradient(180deg, #fdfefe 0%, #f8fafc 100%);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 4px 20px rgba(15, 23, 42, 0.05);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.kn-coach-stat-card:hover {
+  border-color: rgba(0, 52, 97, 0.1);
+  box-shadow: var(--kn-shadow-md);
+}
+
+.kn-coach-banner {
+  border-radius: var(--kn-radius-card);
+  background: linear-gradient(90deg, #003461 0%, #004b87 100%);
+  color: #fff;
+  box-shadow: 0 8px 28px rgba(0, 52, 97, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.kn-coach-banner__deco {
+  position: absolute;
+  right: -1rem;
+  bottom: -1rem;
+  font-size: 6rem;
+  opacity: 0.12;
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.kn-coach-filter-select {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 2.25rem 0.5rem 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: var(--kn-surface-high);
+  color: var(--kn-on-surface-variant);
+}
+
+.kn-coach-filter-wrap {
+  position: relative;
+}
+
+.kn-coach-filter-icon {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--kn-on-surface-variant);
+}
+
+.kn-coach-filter-chevron {
+  font-size: 1.25rem;
+}
+
+.kn-coach-action {
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.4rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: none;
+  border: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.kn-coach-action--primary {
+  background: var(--kn-primary);
+  color: #fff;
+}
+
+.kn-coach-action--primary:hover {
+  background: var(--kn-primary-container);
+  color: #fff;
+}
+
+.kn-coach-action--soft {
+  background: var(--kn-surface-high);
+  color: var(--kn-primary);
+}
+
+.kn-coach-action--soft:hover {
+  background: var(--kn-surface-highest);
+  color: var(--kn-primary);
+}
+
+.kn-coach-action--ghost {
+  background: transparent;
+  color: var(--kn-on-surface-variant);
+}
+
+.kn-coach-action--ghost:hover {
+  background: var(--kn-surface-low);
+  color: var(--kn-on-surface);
+}
+
+.kn-coach-load-more {
+  border-radius: 999px;
+  padding: 0.75rem 2rem;
+  font-weight: 700;
+  border: none;
+  background: var(--kn-surface-low);
+  color: var(--kn-primary);
+  transition: background 0.15s ease;
+}
+
+.kn-coach-load-more:hover {
+  background: var(--kn-surface-high);
+}
+
+.kn-coach-avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: var(--kn-radius-card);
+  object-fit: cover;
+  background: var(--kn-surface-high);
+}
+
+.kn-coach-stat-kicker {
+  letter-spacing: 0.12em;
+}
+
+.kn-coach-trend-icon {
+  font-size: 1rem;
+}
+
+.kn-coach-banner-kicker {
+  letter-spacing: 0.12em;
+  color: #d3e4ff;
+}
+
+.kn-coach-banner-text {
+  max-width: 16rem;
+}
+
+.kn-coach-gold-badge {
+  bottom: -0.35rem;
+  right: -0.35rem;
+  background: var(--kn-tertiary);
+  color: #fff;
+  font-size: 0.55rem;
+}
+
+.kn-coach-progress-track {
+  height: 0.45rem;
+}
+
+.kn-coach-progress-fill {
+  box-shadow: 0 0 8px rgba(0, 109, 49, 0.35);
+}
+
+.kn-coach-action .material-symbols-outlined {
+  font-size: 1rem;
+}
+
+.kn-coach-person-placeholder {
+  font-size: 2.5rem;
+}
+
+.kn-coach-progress-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+}
+
+/* Заголовки секций (журнал, когорта, запросы) */
+.kn-coach-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.kn-coach-card-title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.25rem;
+  color: var(--kn-on-surface);
+}
+
+/* Таблица: когорта по дням */
+.kn-data-table--coach-cohort .kn-th--day,
+.kn-data-table--coach-cohort .kn-td--day {
+  width: 18%;
+  min-width: 5.5rem;
+}
+
+.kn-data-table--coach-cohort .kn-th--count,
+.kn-data-table--coach-cohort .kn-td--count {
+  width: 14%;
+}
+
+.kn-data-table--coach-cohort .kn-th--patterns,
+.kn-data-table--coach-cohort .kn-td--patterns {
+  width: 68%;
+}
+
+.kn-data-table--coach-cohort .kn-td--patterns {
+  font-size: 0.8125rem;
+  color: var(--kn-on-surface-variant);
+}
+
+/* Запросы на тренировку */
+.kn-data-table--coach-requests .kn-th--id,
+.kn-data-table--coach-requests .kn-td--id {
+  width: 7%;
+  min-width: 3rem;
+}
+
+.kn-data-table--coach-requests .kn-th--created,
+.kn-data-table--coach-requests .kn-td--created {
+  width: 18%;
+}
+
+.kn-data-table--coach-requests .kn-th--athlete,
+.kn-data-table--coach-requests .kn-td--athlete {
+  width: 20%;
+}
+
+.kn-data-table--coach-requests .kn-th--status,
+.kn-data-table--coach-requests .kn-td--status {
+  width: 14%;
+}
+
+.kn-data-table--coach-requests .kn-th--note,
+.kn-data-table--coach-requests .kn-td--note {
+  width: 41%;
+}
+
+.kn-data-table--coach-requests .kn-td--note {
+  font-size: 0.8125rem;
+  color: var(--kn-on-surface-variant);
+}
+
+/* Журнал тренировок */
+.kn-data-table--coach-journal .kn-th--date,
+.kn-data-table--coach-journal .kn-td--date {
+  width: 12%;
+  min-width: 6.5rem;
+}
+
+.kn-data-table--coach-journal .kn-th--athlete,
+.kn-data-table--coach-journal .kn-td--athlete {
+  width: 16%;
+}
+
+.kn-data-table--coach-journal .kn-th--type,
+.kn-data-table--coach-journal .kn-td--type {
+  width: 12%;
+}
+
+.kn-data-table--coach-journal .kn-th--duration,
+.kn-data-table--coach-journal .kn-td--duration {
+  width: 10%;
+}
+
+.kn-data-table--coach-journal .kn-th--intensity,
+.kn-data-table--coach-journal .kn-td--intensity {
+  width: 8%;
+}
+
+.kn-data-table--coach-journal .kn-th--notes,
+.kn-data-table--coach-journal .kn-td--notes {
+  width: 42%;
+}
+
+.kn-data-table--coach-journal .kn-td--notes {
+  font-size: 0.8125rem;
+  color: var(--kn-on-surface-variant);
+  line-height: 1.45;
+}

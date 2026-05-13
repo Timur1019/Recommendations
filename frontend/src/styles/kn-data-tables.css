@@ -1,0 +1,110 @@
+/* Общие «листовые» таблицы (спортсмен, админ, тренер) */
+
+.kn-data-table-wrap {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--kn-radius-input);
+  background: var(--kn-white);
+  overflow: hidden;
+}
+
+.kn-data-table-responsive {
+  max-height: min(55vh, 520px);
+  overflow: auto;
+}
+
+.kn-data-table-responsive--short {
+  max-height: min(40vh, 360px);
+}
+
+/* Без ограничения высоты — только горизонтальный скролл при узком экране */
+.kn-data-table-responsive--auto {
+  max-height: none;
+  overflow-x: auto;
+}
+
+.kn-data-table {
+  --kn-table-pad-x: 0.85rem;
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.kn-data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0.65rem var(--kn-table-pad-x);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--kn-on-surface-variant);
+  background: linear-gradient(180deg, var(--kn-surface-low) 0%, #e8edf5 100%);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  vertical-align: middle;
+}
+
+.kn-data-table tbody td {
+  padding: 0.7rem var(--kn-table-pad-x);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+.kn-data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.kn-data-table tbody tr:nth-child(even) {
+  background: rgba(248, 250, 252, 0.65);
+}
+
+.kn-data-table tbody tr:hover {
+  background: rgba(0, 52, 97, 0.04);
+}
+
+.kn-type-pill {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.35em 0.65em;
+  border-radius: 999px;
+  background: rgba(0, 52, 97, 0.08);
+  color: var(--kn-primary);
+  border: 1px solid rgba(0, 52, 97, 0.12);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kn-badge-status {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.35em 0.7em;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.kn-badge-status--pending {
+  color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.08);
+  border-color: rgba(29, 78, 216, 0.25);
+}
+
+.kn-badge-status--approved {
+  color: #15803d;
+  background: rgba(21, 128, 61, 0.08);
+  border-color: rgba(21, 128, 61, 0.28);
+}
+
+.kn-badge-status--rejected {
+  color: #b91c1c;
+  background: rgba(185, 28, 28, 0.08);
+  border-color: rgba(185, 28, 28, 0.28);
+}

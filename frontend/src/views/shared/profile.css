@@ -1,0 +1,120 @@
+/* Profile page — BEM kn-profile- */
+
+.kn-profile {
+  max-width: 920px;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
+.kn-profile__hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kn-profile__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.kn-profile__avatar {
+  width: 112px;
+  height: 112px;
+  border-radius: 1.15rem;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.12);
+  background: linear-gradient(145deg, var(--kn-surface-high, #dce5f3), #fff);
+}
+
+.kn-profile__avatar--hidden {
+  display: none;
+}
+
+.kn-profile__avatar-fallback {
+  width: 112px;
+  height: 112px;
+  border-radius: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #fff;
+  background: linear-gradient(135deg, #003461 0%, #0a6cbd 100%);
+  box-shadow: 0 8px 28px rgba(0, 52, 97, 0.25);
+  letter-spacing: -0.02em;
+}
+
+.kn-profile__hero-text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.kn-profile__name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  color: var(--kn-on-surface, #0f172a);
+}
+
+.kn-profile__role-pill {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(0, 52, 97, 0.08);
+  color: var(--kn-primary, #003461);
+}
+
+.kn-profile__section {
+  margin-bottom: 1.75rem;
+}
+
+.kn-profile__section-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--kn-on-surface-variant, #475569);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.kn-profile__ach-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.kn-profile__ach-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, #fff 0%, var(--kn-surface-low, #eef2f8) 100%);
+}
+
+.kn-profile__ach-name {
+  font-weight: 600;
+  color: var(--kn-on-surface);
+}
+
+.kn-profile__ach-meta {
+  font-size: 0.8125rem;
+  color: var(--kn-on-surface-variant);
+}
