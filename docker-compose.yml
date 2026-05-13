@@ -1,6 +1,11 @@
 # Переменные: из файла .env в этой же папке или из окружения shell.
 # Для продакшена скопируйте env.docker.example → .env и задайте свои DB_PASSWORD и JWT_SECRET.
 # Синтаксис ${VAR:?текст} здесь не используем: иначе даже `docker compose build` падает без .env.
+#
+# VPS: первый старт backend (Liquibase) может занять несколько минут — healthcheck с запасом.
+# Если backend unhealthy: см. логи. Если меняли DB_PASSWORD при уже существующем томе pgdata —
+# пароль в контейнере Postgres не обновится; либо верните старый пароль в .env, либо один раз
+# docker compose down -v (удалит данные БД в Docker) и снова up.
 
 services:
   db:
@@ -43,10 +48,10 @@ services:
       - "8080"
     healthcheck:
       test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/actuator/health"]
-      interval: 15s
+      interval: 20s
       timeout: 15s
-      retries: 20
-      start_period: 240s
+      retries: 25
+      start_period: 300s
 
   web:
     build:

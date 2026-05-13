@@ -19,7 +19,7 @@ RUN mkdir -p /data/uploads && chown -R spring:spring /data/uploads \
 USER spring:spring
 EXPOSE 8080
 
-HEALTHCHECK --interval=15s --timeout=15s --start-period=240s --retries=20 \
+HEALTHCHECK --interval=20s --timeout=15s --start-period=300s --retries=25 \
   CMD curl -sf http://127.0.0.1:8080/actuator/health >/dev/null || exit 1
 
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"

@@ -41,3 +41,8 @@ docker compose up -d
 REMOTE
 
 echo "==> Готово. Проверка: http://${HOST}/"
+echo ""
+echo "Если на сервере ошибка «backend unhealthy» / web не стартует:"
+echo "  ssh root@${HOST} \"cd ${REMOTE_DIR} && docker compose ps && docker compose logs backend --tail=120\""
+echo "Частая причина: в .env другой DB_PASSWORD, а том Postgres уже создан со старым паролем."
+echo "  Один раз (УДАЛИТ данные БД в Docker): ssh root@${HOST} \"cd ${REMOTE_DIR} && docker compose down -v && docker compose up -d --build\""
