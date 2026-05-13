@@ -1,0 +1,15 @@
+.git
+.github
+.gradle
+build
+**/node_modules
+frontend/dist
+.idea
+*.iml
+.env
+.env.*
+!.env.example
+!frontend/.env.example
+LOCAL-DEMO.txt
+logs
+data/uploads

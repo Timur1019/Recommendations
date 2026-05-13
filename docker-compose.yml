@@ -1,0 +1,71 @@
+# Переменные: из файла .env в этой же папке или из окружения shell.
+# Для продакшена скопируйте env.docker.example → .env и задайте свои DB_PASSWORD и JWT_SECRET.
+# Синтаксис ${VAR:?текст} здесь не используем: иначе даже `docker compose build` падает без .env.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-kurashdb}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme_db_only_for_local}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-kurashdb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-kurashdb}
+      DB_USERNAME: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-changeme_db_only_for_local}
+      JWT_SECRET: ${JWT_SECRET:-CHANGE_ME_SUPER_SECRET_64_CHARS_MINIMUM_CHANGE_ME_PLEASE_1234567890}
+      AI_API_KEY: ${AI_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AI_BASE_URL: ${AI_BASE_URL:-https://api.openai.com/v1}
+      AI_MODEL: ${AI_MODEL:-gpt-4o-mini}
+      APP_STORAGE_ROOT: /data/uploads
+      SERVER_PORT: "8080"
+    volumes:
+      - uploads:/data/uploads
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/v3/api-docs"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 120s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    # Раскомментируйте для HTTPS на этом же хосте (нужны cert.pem / key.pem рядом с compose):
+    # ports:
+    #   - "443:443"
+    # volumes:
+    #   - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+
+volumes:
+  pgdata:
+  uploads:

@@ -32,6 +32,8 @@ spring:
 server:
   # Align with frontend (VITE_API_BASE_URL = http://localhost:8080/api). Prefix /api — см. WebMvcConfig (не задавайте SERVER_SERVLET_CONTEXT_PATH).
   port: ${SERVER_PORT:8080}
+  # За reverse proxy (nginx): корректные редиректы и ссылки при X-Forwarded-*.
+  forward-headers-strategy: framework
 
 app:
   storage:
