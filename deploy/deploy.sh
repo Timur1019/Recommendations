@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# Деплой по SSH + rsync. Настройте вход по ключу: ssh-copy-id root@$DEPLOY_HOST
-# Использование с корня репозитория: ./deploy/deploy.sh
-# Переменные: DEPLOY_HOST (по умолчанию ниже), DEPLOY_REMOTE_DIR
+# Деплой по SSH + rsync на сервер.
+#
+# Вход на сервер (вручную):  ssh root@85.198.81.217
+# Ключ один раз:            ssh-copy-id root@85.198.81.217
+#
+# Запуск с машины разработчика (из корня репозитория):
+#   ./deploy/deploy.sh
+# Другой хост/каталог:
+#   DEPLOY_HOST=... DEPLOY_REMOTE_DIR=/opt/recommendations ./deploy/deploy.sh
 
 set -euo pipefail
 
@@ -9,6 +15,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 HOST="${DEPLOY_HOST:-85.198.81.217}"
 REMOTE_DIR="${DEPLOY_REMOTE_DIR:-/opt/recommendations}"
 
+echo "==> Сервер: ssh root@${HOST}"
 echo "==> Rsync → root@${HOST}:${REMOTE_DIR}/"
 ssh "root@${HOST}" "mkdir -p '${REMOTE_DIR}'"
 rsync -az --delete \
