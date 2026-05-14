@@ -64,9 +64,8 @@ services:
     restart: unless-stopped
     depends_on:
       backend:
-        # service_healthy часто ломается из‑за healthcheck; nginx поднимается сразу после старта JVM.
-        # Первые секунд API может отвечать 502 — обнови страницу.
-        condition: service_started
+        # Ждём healthcheck backend (GET /api/health/live) — иначе nginx даёт 502, пока JVM не поднялась.
+        condition: service_healthy
     ports:
       - "80:80"
     # Раскомментируйте для HTTPS на этом же хосте (нужны cert.pem / key.pem рядом с compose):
