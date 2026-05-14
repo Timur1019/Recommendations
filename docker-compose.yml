@@ -43,6 +43,7 @@ services:
       AI_MODEL: ${AI_MODEL:-gpt-4o-mini}
       APP_STORAGE_ROOT: /data/uploads
       SERVER_PORT: "8080"
+      LOG_PATH: /tmp/kurash-logs
     volumes:
       - uploads:/data/uploads
     expose:

@@ -14,8 +14,10 @@ WORKDIR /app
 RUN addgroup -S spring && adduser -S spring -G spring
 COPY --from=build /app/build/libs/app.jar ./app.jar
 COPY docker/backend-entrypoint.sh /backend-entrypoint.sh
+# spring пишет logback в logs/ под user.dir=/app — без chown каталог создать нельзя → падение при старте
 RUN chmod +x /backend-entrypoint.sh \
     && mkdir -p /data/uploads && chown -R spring:spring /data/uploads \
+    && chown -R spring:spring /app \
     && apk add --no-cache curl su-exec
 
 # Запуск от root только для chown тома в entrypoint; процесс Java — spring (su-exec).
