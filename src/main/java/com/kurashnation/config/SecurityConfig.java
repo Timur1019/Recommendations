@@ -29,7 +29,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/api/auth/**").permitAll()
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                        // Все actuator (в т.ч. /actuator/health/liveness для Docker) — без 401 на healthcheck
+                        .requestMatchers(HttpMethod.GET, "/api/health/live").permitAll()
+                        // Все actuator (Swagger, health UI и т.д.) — без 401
                         .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",

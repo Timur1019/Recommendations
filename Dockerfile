@@ -22,7 +22,7 @@ RUN chmod +x /backend-entrypoint.sh \
 EXPOSE 8080
 
 HEALTHCHECK --interval=20s --timeout=15s --start-period=300s --retries=25 \
-  CMD curl -sf http://127.0.0.1:8080/actuator/health/liveness >/dev/null || exit 1
+  CMD curl -sf http://127.0.0.1:8080/api/health/live >/dev/null || exit 1
 
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 

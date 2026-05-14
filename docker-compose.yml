@@ -48,8 +48,8 @@ services:
     expose:
       - "8080"
     healthcheck:
-      # liveness без агрегата БД (compose уже ждёт db healthy); меньше ложных 503 на старте
-      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/actuator/health/liveness"]
+      # См. PublicHealthController — стабильнее, чем Actuator при Spring Security
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/api/health/live"]
       interval: 20s
       timeout: 15s
       retries: 25
@@ -64,7 +64,9 @@ services:
     restart: unless-stopped
     depends_on:
       backend:
-        condition: service_healthy
+        # service_healthy часто ломается из‑за healthcheck; nginx поднимается сразу после старта JVM.
+        # Первые секунд API может отвечать 502 — обнови страницу.
+        condition: service_started
     ports:
       - "80:80"
     # Раскомментируйте для HTTPS на этом же хосте (нужны cert.pem / key.pem рядом с compose):

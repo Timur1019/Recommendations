@@ -46,3 +46,4 @@ echo "Если на сервере ошибка «backend unhealthy» / web не
 echo "  ssh root@${HOST} \"cd ${REMOTE_DIR} && docker compose ps && docker compose logs backend --tail=120\""
 echo "Частая причина: в .env другой DB_PASSWORD, а том Postgres уже создан со старым паролем."
 echo "  Один раз (УДАЛИТ данные БД в Docker): ssh root@${HOST} \"cd ${REMOTE_DIR} && docker compose down -v && docker compose up -d --build\""
+echo "Проверка API из контейнера backend: docker compose exec backend curl -sf http://127.0.0.1:8080/api/health/live"
